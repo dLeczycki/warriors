@@ -1,7 +1,6 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+import { getBestWarriors } from "../controllers/hall-of-fame-controller";
 
 export const hallOfFameRouter = Router();
 
-hallOfFameRouter.get('/', (req: Request, res: Response) => {
-  res.send('Get all hall of fame results');
-})
+hallOfFameRouter.get('/', getBestWarriors)

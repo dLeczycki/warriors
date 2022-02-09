@@ -1,7 +1,6 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+import { startFight } from "../controllers/arena-controller";
 
 export const arenaRouter = Router();
 
-arenaRouter.post('/', (req: Request, res: Response) => {
-  res.send('return array of moves and result');
-})
+arenaRouter.post('/', startFight);

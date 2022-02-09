@@ -1,15 +1,8 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+import { getWarrior, getWarriors, insertWarrior } from "../controllers/warrior-controller";
 
 export const warriorRouter = Router();
 
-warriorRouter.get('/', (req: Request, res: Response) => {
-  res.send('Get all warriors');
-})
-
-warriorRouter.get('/:name', (req: Request, res: Response) => {
-  res.send('Get single warrior')
-})
-
-warriorRouter.post('/', (req: Request, res: Response) => {
-  res.send('insert single warrior');
-})
+warriorRouter.get('/', getWarriors);
+warriorRouter.get('/:name', getWarrior);
+warriorRouter.post('/', insertWarrior);
