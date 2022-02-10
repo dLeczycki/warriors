@@ -5,4 +5,6 @@ export interface Warrior {
   agility: number;
   resilience: number;
   wonBattles: number;
+  portraitImagePath: string;
+  attackImagePath: string;
 }

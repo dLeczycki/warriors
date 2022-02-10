@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import { getWarrior, getWarriors, insertWarrior } from "../controllers/warrior-controller";
 
 export const warriorRouter = Router();

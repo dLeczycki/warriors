@@ -1,14 +1,25 @@
 import * as express from "express";
-import { homeRouter } from './routes/home-route';
+require('express-async-errors');
+import * as fileUpload from "express-fileupload";
+import { join } from "path";
+
 import { warriorRouter } from './routes/warrior-route';
 import { arenaRouter } from './routes/arena-route';
 import { hallOfFameRouter } from './routes/hall-of-fame-route';
+import { handleError, handleNotFound } from "./utils/errors";
 
 const app = express();
 
-app.use('/', homeRouter);
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.static(join(__dirname, 'public')));
+app.use(fileUpload());
+
 app.use('/warrior', warriorRouter);
 app.use('/arena', arenaRouter);
 app.use('/hall-of-fame', hallOfFameRouter);
 
-app.listen(3000, () => console.log('listening on port 3000'));
+app.use(handleError);
+app.use(handleNotFound);
+
+app.listen(3001, () => console.log('listening on port 3001'));
