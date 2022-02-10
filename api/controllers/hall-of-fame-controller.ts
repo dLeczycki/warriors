@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
+import { WarriorModel } from "../models/warrior-model";
 
-export function getBestWarriors(req: Request, res: Response) {
-  res.send('Get all hall of fame results - 10 best warriors with highest number of battles won');
+export async function getBestWarriors(req: Request, res: Response) {
+  const bestWarriors: WarriorModel[] = await WarriorModel.getBestWarriors();
+  res.json(bestWarriors);
 }

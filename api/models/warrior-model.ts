@@ -23,6 +23,11 @@ export class WarriorModel implements Warrior {
     return warriors.length > 0 ? warriors[0] : null;
   }
 
+  static async getBestWarriors(): Promise<WarriorModel[]> {
+    const [warriors] = await pool.execute('SELECT * FROM warrior ORDER BY `wonBattles` DESC LIMIT 10') as WarriorModelResults;
+    return warriors;
+  }
+
   static async warriorExists(name: string): Promise<boolean> {
     const warrior = await WarriorModel.getOne(name);
     return warrior === null ? false : true;
