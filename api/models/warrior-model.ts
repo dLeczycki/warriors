@@ -1,6 +1,7 @@
 import { FieldPacket } from 'mysql2';
 import { v4 as uuid } from 'uuid';
 
+import { FightLog } from '../../types/fightLog';
 import { Warrior } from '../../types/warrior';
 import { pool } from '../utils/db';
 
@@ -8,9 +9,13 @@ type WarriorModelResults = [WarriorModel[], FieldPacket[]];
 
 export class WarriorModel implements Warrior {
   private id: string;
+  public hp: number;
+  public dp: number;
 
   constructor(public name: string, public strength: number, public defense: number, public agility: number, public resilience: number, public wonBattles: number, public portraitImagePath: string, public attackImagePath: string) {
     this.id = '';
+    this.hp = resilience * 10;
+    this.dp = defense;
   }
 
   static async getAll(): Promise<WarriorModel[]> {
@@ -31,6 +36,14 @@ export class WarriorModel implements Warrior {
   static async warriorExists(name: string): Promise<boolean> {
     const warrior = await WarriorModel.getOne(name);
     return warrior === null ? false : true;
+  }
+
+  static async increaseWonBattles(warrior: WarriorModel): Promise<void> {
+    warrior.wonBattles++;
+    await pool.execute('UPDATE `warrior` SET `wonBattles` = :wonBattles WHERE `name` = :name', {
+      wonBattles: warrior.wonBattles,
+      name: warrior.name,
+    })
   }
 
   async insert(): Promise<WarriorModel> {

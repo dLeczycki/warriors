@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { startFight } from "../controllers/arena-controller";
+import { fight } from "../controllers/arena-controller";
 
 export const arenaRouter = Router();
 
-arenaRouter.post('/', startFight);
+arenaRouter.post('/', fight);

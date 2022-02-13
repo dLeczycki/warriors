@@ -10,3 +10,10 @@ export function uploadWarriorImages(warriorName: string, portraitImage: Uploaded
 
   return { portraitImagePath, attackImagePath };
 }
+
+export function randomEnum<T>(anEnum: T): number {
+  const enumValues = Object.keys(anEnum);
+  const randomIndex = Math.floor(Math.random() * enumValues.length / 2);
+
+  return randomIndex;
+}
