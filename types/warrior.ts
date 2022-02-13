@@ -7,4 +7,6 @@ export interface Warrior {
   wonBattles: number;
   portraitImagePath: string;
   attackImagePath: string;
+  hp: number;
+  dp: number;
 }
