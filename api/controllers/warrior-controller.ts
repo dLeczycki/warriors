@@ -25,6 +25,9 @@ export async function insertWarrior(req: Request, res: Response) {
 
   if (!portraitImage || !attackImage) throw new ValidationError('You must specify a portrait image and a attack image');
 
+  //TODO: poprawna walidacja wojownika - dodać walidację pustego imienia i samych białych znaków
+  if (name.length === 0 || /^\s*$/.test(name)) throw new ValidationError('Name cannot be empty');
+
   if (await WarriorModel.warriorExists(name)) {
     throw new ValidationError('Warrior already exists');
   }
