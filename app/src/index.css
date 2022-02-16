@@ -4,6 +4,47 @@
   box-sizing: border-box;
 }
 
+:root {
+  --main-color: #5c78fe;
+  --main-color-hover: #92a4ff;
+  --background-color: #10206d;
+  --light-color: #fff;
+}
+
 html {
+  background-color: var(--background-color);
+  color: var(--main-color);
   font-family: 'Lato', sans-serif;
+}
+
+ul {
+  list-style: none;
+  text-align: center;
+}
+
+a {
+  display: block;
+  margin-bottom: 1em;
+  color: var(--main-color);
+  text-decoration: none;
+  font-size: 2.8em;
+  transition: .3s;
+}
+
+a:hover {
+  color: var(--main-color-hover);
+}
+
+div.container {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+h1 {
+  margin-bottom: .8em;
+  color: white;
+  font-size: 6em;
+  font-family: 'Permanent Marker', cursive;
 }

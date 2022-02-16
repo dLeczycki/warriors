@@ -1,0 +1,12 @@
+section.home {
+  height: 100vh;
+  background-image: url('../../../public/home.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section.home address {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}

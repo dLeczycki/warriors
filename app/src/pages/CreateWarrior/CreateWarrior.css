@@ -1,0 +1,6 @@
+section.create-warrior {
+  height: 100vh;
+  background-image: url('../../../public/create-warrior.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}

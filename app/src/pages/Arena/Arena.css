@@ -1,0 +1,6 @@
+section.arena {
+  height: 100vh;
+  background-image: url('../../../public/arena.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
