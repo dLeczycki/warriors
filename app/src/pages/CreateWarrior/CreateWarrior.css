@@ -1,6 +1,157 @@
-section.create-warrior {
-  height: 100vh;
+article.create-warrior {
   background-image: url('../../../public/create-warrior.png');
-  background-repeat: no-repeat;
-  background-size: cover;
+}
+
+section.images {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 1em;
+}
+
+img#portrait-image {
+  display: block;
+  margin-right: .4em;
+  margin-left: var(--small-image-size);
+  width: var(--medium-image-size);
+  height: var(--medium-image-size);
+  border: 6px solid var(--background-color);
+  border-radius: var(--border-radius);
+}
+
+img#attack-image {
+  width: var(--small-image-size);
+  height: var(--small-image-size);
+  border: 4px solid var(--background-color);
+  border-radius: var(--border-radius);
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  padding: .6em;
+  font-size: 1.6em;
+  background-color: var(--background-color-transparent);
+  border-radius: var(--border-radius);
+}
+
+form fieldset {
+  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 2em;
+  border: none;
+}
+
+form fieldset:nth-child(1) {
+  border-right: 2px solid var(--main-color);
+}
+
+form fieldset:nth-child(2) {
+  border-left: 2px solid var(--main-color);
+}
+
+form fieldset.bottom-panel {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1em;
+}
+
+form fieldset legend {
+  font-size: 1.4em;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 0 0 5px var(--background-color);
+}
+
+form fieldset small {
+  text-align: center;
+  font-size: .6em;
+}
+
+form fieldset small span {
+  padding: 0 .2em;
+  font-weight: bold;
+}
+
+form label {
+  margin-bottom: .4em;
+}
+
+form label.name {
+  display: flex;
+  justify-content: space-between;
+}
+
+form label.image {
+  padding: .4em;
+  color: var(--light-color);
+  background-color: var(--main-color);
+  border: 2px solid var(--background-color);
+  border-radius: var(--border-radius);
+  font-size: .8em;
+  cursor: pointer;
+  transition: .3s;
+}
+
+form label.image:hover {
+  background-color: var(--background-color);
+}
+
+form input[type="file"] {
+  display: none;
+}
+
+
+form input[type="submit"] {
+  padding: 10px 25px;
+  background-color: var(--background-color);
+  border: 2px solid var(--main-color);
+}
+
+form input[type="submit"]:hover {
+  background-color: var(--main-color);
+}
+
+form label.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+form label.stat input {
+  text-align: center;
+  width: 3em;
+}
+
+form label.stat div.stat-input {
+  display: flex;
+}
+
+form label.stat div.buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+form label.stat div.buttons button {
+  padding: 0 .2em;
+  height: 50%;
+}
+
+span {
+  min-height: 1em;
+  width: 400px;
+  text-align: center;
+  text-decoration: underline;
+}
+
+span.error {
+  color: var(--error-color);
+}
+
+span.success {
+  color: var(--success-color);
 }

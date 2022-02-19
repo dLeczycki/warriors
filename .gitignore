@@ -10,5 +10,5 @@
 
 # misc
 **/.env*
-**/public/*
+api/public/*
 **/npm-debug.log*
