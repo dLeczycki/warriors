@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { WarriorModel } from "../models/warrior-model";
 import { ValidationError } from "../utils/errors";
 import { uploadWarriorImages } from "../utils/helpers";
+import { WarriorToInsert } from '../../types/warrior';
 
 
 export async function getWarriors(req: Request, res: Response) {
@@ -20,28 +21,32 @@ export async function getWarrior(req: Request, res: Response) {
 }
 
 export async function insertWarrior(req: Request, res: Response) {
-  const { portraitImage, attackImage } = req.files as any;
-  const { name, strength, defense, agility, resilience } = JSON.parse(req.body.warrior);
-
-  if (!portraitImage || !attackImage) throw new ValidationError('You must specify a portrait image and a attack image');
+  const warriorToInsert: WarriorToInsert = JSON.parse(req.body.warrior);
 
   //TODO: poprawna walidacja wojownika - dodać walidację pustego imienia i samych białych znaków
-  if (name.length === 0 || /^\s*$/.test(name)) throw new ValidationError('Name cannot be empty');
+  if (warriorToInsert.name.length === 0 || /^\s*$/.test(warriorToInsert.name)) throw new ValidationError('Name cannot be empty');
 
-  if (await WarriorModel.warriorExists(name)) {
+  if (await WarriorModel.warriorExists(warriorToInsert.name)) {
     throw new ValidationError('Warrior already exists');
   }
 
-  if (strength + defense + agility + resilience !== 10) {
+  if (warriorToInsert.strength + warriorToInsert.defense + warriorToInsert.agility + warriorToInsert.resilience !== 10) {
     throw new ValidationError('You must spend exactly 10 points for warrior skills')
   }
 
-  if (strength < 1 || defense < 1 || agility < 1 || resilience < 1) {
+  if (warriorToInsert.strength < 1 || warriorToInsert.defense < 1 || warriorToInsert.agility < 1 || warriorToInsert.resilience < 1) {
     throw new ValidationError('You must spend at least 1 point for each warrior skill');
   }
 
-  const { portraitImagePath, attackImagePath } = uploadWarriorImages(name, portraitImage, attackImage);
-  const warrior = new WarriorModel(name, strength, defense, agility, resilience, 0, portraitImagePath, attackImagePath);
+  let portraitImagePath = "public/bandit-portrait-image.png", attackImagePath = "public/bandit-attack-image.png";
+  try {
+    const { portraitImage, attackImage } = req.files as any;
+    const uploadResult = uploadWarriorImages(warriorToInsert.name, portraitImage, attackImage);
+    portraitImagePath = uploadResult.portraitImagePath;
+    attackImagePath = uploadResult.attackImagePath;
+  } catch (error) { }
+
+  const warrior = new WarriorModel(warriorToInsert.name, warriorToInsert.strength, warriorToInsert.defense, warriorToInsert.agility, warriorToInsert.resilience, 0, portraitImagePath, attackImagePath);
 
   const insertedWarrior = await warrior.insert();
 
