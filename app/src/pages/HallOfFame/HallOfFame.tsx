@@ -1,17 +1,17 @@
 import React from "react";
-import GoToHome from "../../components/GoToHome/GoToHome";
+import GoToHome from "../../components/App/GoToHome";
 
 import './HallOfFame.css';
 
 function HallOfFame(){
 
   return (
-    <section className="hall-of-fame">
+    <article className="hall-of-fame">
       <div className="container">
-        <h1>HallOfFame</h1>
+        <h1>Hall Of Fame</h1>
         <GoToHome />
       </div>
-    </section>
+    </article>
   )
 }
 

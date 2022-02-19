@@ -1,6 +1,3 @@
-section.hall-of-fame {
-  height: 100vh;
+article.hall-of-fame {
   background-image: url('../../../public/hall-of-fame.png');
-  background-repeat: no-repeat;
-  background-size: cover;
 }

@@ -1,6 +1,3 @@
-section.arena {
-  height: 100vh;
+article.arena {
   background-image: url('../../../public/arena.png');
-  background-repeat: no-repeat;
-  background-size: cover;
 }
