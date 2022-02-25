@@ -1,3 +1,49 @@
 article.hall-of-fame {
   background-image: url('../../../public/hall-of-fame.png');
 }
+
+article.hall-of-fame small {
+  display: block;
+  font-size: 1.2em;
+  text-align: center;
+  color: var(--light-color);
+}
+
+article.hall-of-fame ul {
+  font-size: 2em;
+}
+
+article.hall-of-fame ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: .4em 0;
+  padding: .4em;
+  background-color: var(--background-color-transparent);
+  border-radius: var(--border-radius);
+  border-left: 10px solid transparent;
+}
+
+article.hall-of-fame ul li:nth-child(1) {
+  border-left-color: gold;
+}
+
+article.hall-of-fame ul li:nth-child(2) {
+  border-left-color: silver;
+}
+
+article.hall-of-fame ul li:nth-child(3) {
+  border-left-color: brown;
+}
+
+article.hall-of-fame ul li div.info-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 30%;
+}
+
+article.hall-of-fame ul li img {
+  width: var(--tiny-image-size);
+  height: var(--tiny-image-size);
+}
