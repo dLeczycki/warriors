@@ -65,19 +65,26 @@ function generateFightLogs(firstWarrior: WarriorModel, secondWarrior: WarriorMod
 }
 
 function attack(attacker: WarriorModel, defender: WarriorModel): AttackResult {
-  if (defender.dp > 0 && defender.agility > attacker.strength) {
-    if (defender.dp > attacker.strength) {
-      defender.dp -= attacker.strength;
+  let dodge = false;
+  if (defender.agility > attacker.agility) {
+    const rand = Math.random();
+    const dodgeThreshold = 0.1 * (defender.agility - attacker.agility)
+    if (rand < dodgeThreshold) {
+      dodge = true;
+    }
+  }
+
+  if (dodge) {
+    return AttackResult.dodge;
+  }
+  else if (defender.dp > 0) {
+    if (defender.dp > 1) {
+      defender.dp--;
       return AttackResult.dpDamage;
     }
-    else if (defender.dp === attacker.strength) {
+    else {
       defender.dp = 0;
       return AttackResult.dpDestroyed;
-    } else {
-      const attackRest = attacker.strength - defender.dp;
-      defender.dp = 0;
-      defender.hp -= attackRest;
-      return AttackResult.dpDestroyedAndHpDamage;
     }
   } else {
     defender.hp -= attacker.strength;

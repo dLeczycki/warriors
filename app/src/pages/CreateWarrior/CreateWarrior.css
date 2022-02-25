@@ -141,17 +141,17 @@ form label.stat div.buttons button {
   height: 50%;
 }
 
-span {
+form fieldset span {
   min-height: 1em;
   width: 400px;
   text-align: center;
   text-decoration: underline;
 }
 
-span.error {
+form fieldset span.error {
   color: var(--error-color);
 }
 
-span.success {
+form fieldset span.success {
   color: var(--success-color);
 }

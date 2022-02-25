@@ -23,7 +23,6 @@ export async function getWarrior(req: Request, res: Response) {
 export async function insertWarrior(req: Request, res: Response) {
   const warriorToInsert: WarriorToInsert = JSON.parse(req.body.warrior);
 
-  //TODO: poprawna walidacja wojownika - dodać walidację pustego imienia i samych białych znaków
   if (warriorToInsert.name.length === 0 || /^\s*$/.test(warriorToInsert.name)) throw new ValidationError('Name cannot be empty');
 
   if (await WarriorModel.warriorExists(warriorToInsert.name)) {

@@ -33,7 +33,7 @@ html {
 }
 
 article {
-  height: 100vh;
+  min-height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -64,7 +64,7 @@ div.container {
 }
 
 h1 {
-  margin-bottom: .8em;
+  margin-bottom: .2em;
   color: white;
   font-size: 6em;
   font-family: 'Permanent Marker', cursive;
@@ -109,8 +109,14 @@ button:hover {
   background-color: var(--background-color);
 }
 
-input.outline {}
-
 input.outline:hover {
   background-color: var(--main-color);
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
 }

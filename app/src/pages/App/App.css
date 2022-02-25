@@ -1,3 +1,7 @@
 .home-link {
-  margin-top: 1em;
+  position: fixed;
+  top: unset;
+  right: unset;
+  top: 10px;
+  left: 10px;
 }

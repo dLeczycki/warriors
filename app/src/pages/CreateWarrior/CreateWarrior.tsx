@@ -53,8 +53,6 @@ function CreateWarrior(){
       formData.append('warrior', JSON.stringify(warrior));
       if(portraitImage instanceof File) formData.append('portraitImage', portraitImage, portraitImage.name);
       if(attackImage instanceof File) formData.append('attackImage', attackImage, attackImage.name);
-
-      console.log(formData.entries());
       
       const response = await fetch(`${process.env.REACT_APP_API_URL}/warrior`, {
         method: 'POST',
@@ -65,6 +63,9 @@ function CreateWarrior(){
       if(response.status >= 400) throw new Error(data.message);
       setSuccess(true);
       setError("");
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
     } catch(error){
       setError(getErrorMessage(error));
     }
@@ -98,8 +99,8 @@ function CreateWarrior(){
             <input type="submit" value="Create" className="outline" />
           </fieldset>
         </form>
-        <GoToHome />
       </div>
+      <GoToHome />
     </article>
   )
 }

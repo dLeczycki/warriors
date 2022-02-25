@@ -1,3 +1,335 @@
-article.arena {
+article.warriors-pick-screen {
   background-image: url('../../../public/arena.png');
+}
+
+section.fight-settings {
+  display: flex;
+}
+
+section.fight-settings>span {
+  margin: 1.4em 1em;
+  color: var(--light-color);
+  font-size: 5em;
+  text-decoration: none;
+  text-shadow: 0 .1em var(--main-color);
+}
+
+section.warrior-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  font-size: 1.2em;
+}
+
+section.warrior-picker h2 {
+  color: var(--light-color);
+}
+
+div.chosen-warrior {
+  margin-bottom: 1em;
+  padding: 1em;
+  max-width: 240px;
+  background-color: var(--background-color-transparent);
+  border-radius: var(--border-radius);
+}
+
+div.chosen-warrior img {
+  width: 200px;
+  height: 200px;
+}
+
+div.chosen-warrior h3 {
+  text-align: center;
+}
+
+div.chosen-warrior p {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.warriors {
+  margin-top: .4em;
+  padding: 0 1em 1em;
+  min-width: 650px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: var(--background-color-transparent);
+  border-radius: var(--border-radius);
+}
+
+div.warriors h3 {
+  flex-basis: 100%;
+  text-align: center;
+}
+
+div.warriors img.warrior-to-pick {
+  margin: 5px;
+  width: 75px;
+  height: 75px;
+  filter: grayscale(60%);
+  cursor: pointer;
+  transition: .3s;
+}
+
+div.warriors img.warrior-to-pick:hover {
+  filter: none;
+}
+
+div.warriors img.warrior-to-pick.picked {
+  filter: none;
+  border: 3px solid var(--main-color);
+}
+
+div.warriors img.warrior-to-pick.blocked {
+  filter: grayscale(100%);
+  cursor: default;
+  border: 3px solid var(--error-color);
+}
+
+button.fight {
+  padding: .2em .6em;
+  width: 100%;
+  font-size: 3em;
+}
+
+article.fight-screen {
+  background-image: url('../../../public/fight.png');
+}
+
+article.fight-screen button.skip-fight {
+  display: block;
+  margin: 0 auto;
+  color: var(--main-color);
+  background-color: transparent;
+  border: none;
+}
+
+article.fight-screen button.skip-fight:hover {
+  color: var(--main-color-hover);
+}
+
+article.fight-screen div.fight-finished-panel {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+article.fight-screen div.fight-finished-panel h1.winner::before {
+  display: block;
+  content: '';
+  height: 120px;
+  background-image: url('../../../public/laurel.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+article.fight-screen div.fight-finished-panel h1.winner {
+  font-size: 8em;
+  color: var(--light-color);
+}
+
+section.fight-board {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.warrior-fight-card {
+  padding: 1em;
+  background-color: var(--background-color-transparent);
+  border-radius: var(--border-radius);
+}
+
+div.warrior-fight-card div.portrait-image {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  transition: 1.6s;
+}
+
+div.warrior-fight-card div.portrait-image::after {
+  content: 'DODGE';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 4em;
+  color: var(--light-color);
+  opacity: 0;
+}
+
+.dodge {
+  position: relative;
+  -moz-box-shadow: inset 0 0 10px 10px var(--light-color);
+  -webkit-box-shadow: inset 0 0 10px 10px var(--light-color);
+  box-shadow: inset 0 0 10px 10px var(--light-color);
+}
+
+.dodge::after {
+  animation: dodge-text-animation 1.6s linear both;
+}
+
+div.warrior-fight-card h3 {
+  font-size: 1.8em;
+  text-align: center;
+}
+
+div.warrior-fight-card div.bar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: .2em;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  border: 3px solid var(--main-color);
+}
+
+div.warrior-fight-card div.bar span {
+  color: var(--light-color);
+  font-size: 1.4em;
+  z-index: 2;
+}
+
+div.warrior-fight-card div.bar div.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: .8s;
+}
+
+div.warrior-fight-card div.hp-bar div.progress {
+  background-color: rgba(146, 0, 0, 0.8);
+}
+
+div.warrior-fight-card div.dp-bar div.progress {
+  background-color: rgba(233, 233, 233, 0.5);
+}
+
+div.attacks {
+  position: relative;
+  width: 600px;
+  height: 120px;
+}
+
+div.attacks img {
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+}
+
+div.attacks img.first-warrior-attack {
+  position: absolute;
+  top: 0;
+  left: 10%;
+}
+
+div.attacks img.second-warrior-attack {
+  position: absolute;
+  top: 0;
+  right: 10%;
+  transform: scaleX(-1);
+}
+
+div.attacks img.first-warrior-attack.animate {
+  animation: first-warrior-attack .8s both;
+}
+
+div.attacks img.second-warrior-attack.animate {
+  animation: second-warrior-attack .8s both;
+}
+
+.shadow-screen::after {
+  position: fixed;
+  content: '';
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  animation: shadow-screen 2s linear both;
+}
+
+.unshadow-screen::after {
+  position: fixed;
+  content: '';
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  animation: unshadow-screen 2s linear both;
+}
+
+@keyframes shadow-screen {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    background-color: rgba(0, 0, 0, 1);
+  }
+}
+
+@keyframes unshadow-screen {
+  0% {
+    background-color: rgba(0, 0, 0, 1);
+  }
+
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes first-warrior-attack {
+  0% {
+    opacity: 0;
+    left: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    left: 80%;
+  }
+}
+
+@keyframes second-warrior-attack {
+  0% {
+    opacity: 0;
+    right: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    right: 80%;
+  }
+}
+
+@keyframes dodge-text-animation {
+  0% {
+    top: 20%;
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 70%;
+    opacity: 0;
+  }
 }

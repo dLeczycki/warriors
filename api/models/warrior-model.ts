@@ -18,8 +18,13 @@ export class WarriorModel implements Warrior {
     this.dp = defense;
   }
 
+  //TODO: Look closely on hp and dp send to FE
   static async getAll(): Promise<WarriorModel[]> {
     const [warriors] = await pool.execute('SELECT * FROM warrior') as WarriorModelResults;
+    warriors.forEach(warrior => {
+      warrior.hp = warrior.resilience * 10;
+      warrior.dp = warrior.defense;
+    })
     return warriors;
   }
 
