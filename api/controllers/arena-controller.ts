@@ -78,14 +78,8 @@ function attack(attacker: WarriorModel, defender: WarriorModel): AttackResult {
     return AttackResult.dodge;
   }
   else if (defender.dp > 0) {
-    if (defender.dp > 1) {
-      defender.dp--;
-      return AttackResult.dpDamage;
-    }
-    else {
-      defender.dp = 0;
-      return AttackResult.dpDestroyed;
-    }
+    defender.dp--;
+    return AttackResult.dpDamage;
   } else {
     defender.hp -= attacker.strength;
     return AttackResult.hpDamage;

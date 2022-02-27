@@ -13,15 +13,13 @@ function HallOfFame(){
       const response = await fetch(`${process.env.REACT_APP_API_URL}/hall-of-fame`);
       const data = await response.json();
 
-      console.log(data);
-
       setBestWarriors(data);
     }
 
     fetchBestWarriors();
   }, []);
 
-  const warriorsTable = bestWarriors.map((warrior, index) => <WarriorPosition warrior={warrior} position={index+1}/>)
+  const warriorsTable = bestWarriors.map((warrior, index) => <WarriorPosition key={index} warrior={warrior} position={index+1}/>)
 
   return (
     <article className="hall-of-fame">

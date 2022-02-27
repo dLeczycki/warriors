@@ -1,52 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Warrior } from "../../../../types/warrior";
+import { FightResult, FightStages,FightEffects, AttackResult, FightLog } from "../../types/fightLog";
 import GoToHome from "../../components/App/GoToHome";
-import WarriorPicker from "../../components/Arena/WarriorPicker";
 
 import "./Arena.css";
-import WarriorFightCard from "../../components/Arena/WarriorFightCard";
-import { Link } from "react-router-dom";
+import FightFinishedPanel from "../../components/Arena/FightFinishedPanel";
+import FightBoard from "../../components/Arena/FightBoard";
+import SkipFightButton from "../../components/Arena/SkipFightButton";
+import StartFightButton from "../../components/Arena/StartFightButton";
+import FightSettings from "../../components/Arena/FightSettings";
 
-enum AttackResult {
-  dodge,
-  dpDamage,
-  dpDestroyed,
-  hpDamage,
-}
-
-enum FightEffects{
-  NONE = "",
-  DODGE = 'dodge',
-  WIN = 'win',
-}
-
-enum FightStages {
-  NOT_STARTED,
-  IN_FIGHT,
-  FINISHED,
-}
-
-interface FightLog {
-  attackerName: string;
-  defenderName: string;
-  defenderHp: number;
-  defenderDp: number;
-  attackResult: AttackResult;
-}
-
-interface FightResult {
-  fightLogs: FightLog[];
-  winner: Warrior;
-  looser: Warrior;
-}
 
 function Arena(){
-  const initialWarrior: Warrior = {name: "", strength: 0, defense: 0, agility: 0, resilience: 0, wonBattles: 0, attackImagePath: "", portraitImagePath: "", hp: 0, dp: 0};
+  const initialWarrior: Warrior = {name: "", strength: 0, defense: 0, agility: 0, resilience: 0, wonBattles: 0, attackImagePath: "bandit-attack-image.png", portraitImagePath: "bandit-portrait-image.png", hp: 0, dp: 0};
 
   const [warriors, setWarriors] = useState<Warrior[]>([]);
   const [firstWarrior, setFirstWarrior] = useState<Warrior>(initialWarrior);
   const [secondWarrior, setSecondWarrior] = useState<Warrior>(initialWarrior);
   const [fightResult, setFightResult] = useState<FightResult>({fightLogs: [], winner: initialWarrior, looser: initialWarrior});
+  const [firstWarriorEffect, setFirstWarriorEffect] = useState<FightEffects>(FightEffects.NONE);
+  const [secondWarriorEffect, setSecondWarriorEffect] = useState<FightEffects>(FightEffects.NONE);
   const [fightStage, setFightStage] = useState(FightStages.NOT_STARTED);
   const [shouldSkipFight, setShouldSkipFight] = useState(false);
   const [fightIntervalId, setFightIntervalId] = useState<NodeJS.Timer>();
@@ -55,8 +28,6 @@ function Arena(){
   const fightScreen = useRef<HTMLDivElement>(null);
   const firstWarriorAttack = useRef<HTMLImageElement>(null);
   const secondWarriorAttack = useRef<HTMLImageElement>(null);
-  const [firstWarriorEffect, setFirstWarriorEffect] = useState<FightEffects>(FightEffects.NONE);
-  const [secondWarriorEffect, setSecondWarriorEffect] = useState<FightEffects>(FightEffects.NONE);
 
   useEffect(() => {
     const fetchWarriors = async () => {
@@ -115,12 +86,14 @@ function Arena(){
       attackRef.current?.classList.remove('animate');
       setEffect(FightEffects.NONE);
     }, 1600);
-
   }
 
-  //TODO: Laurel on WIN and Additional FightEffects
   const skipFight = () => {
     setShouldSkipFight(true);
+  }
+  
+  const getWarriorAfterDefense = (warrior: Warrior, log: FightLog): Warrior => {
+    return {...warrior, hp: log.defenderHp, dp: log.defenderDp};
   }
 
   useEffect(() => {
@@ -133,10 +106,10 @@ function Arena(){
 
         if(log.attackerName === firstWarrior.name){
           animateAttack(log, firstWarriorAttack, setSecondWarriorEffect);
-          setSecondWarrior({...secondWarrior, dp: log.defenderDp, hp: log.defenderHp});
+          setSecondWarrior(getWarriorAfterDefense(secondWarrior, log));
         } else {
           animateAttack(log, secondWarriorAttack, setFirstWarriorEffect);
-          setFirstWarrior({...firstWarrior, dp: log.defenderDp, hp: log.defenderHp});
+          setFirstWarrior(getWarriorAfterDefense(firstWarrior, log));
         }
 
         logNumber++;
@@ -151,12 +124,15 @@ function Arena(){
     }
 
     if(shouldSkipFight){
+      const winnerLastLog = fightLogs[fightLogs.length - 2];
+      const looserLastLog = fightLogs[fightLogs.length - 1];
+
       if(fightResult.winner.name === firstWarrior.name){
-        setFirstWarrior({...firstWarrior, hp: fightLogs[fightLogs.length - 2].defenderHp, dp: fightLogs[fightLogs.length - 2].defenderDp});
-        setSecondWarrior({...secondWarrior, hp: fightLogs[fightLogs.length - 1].defenderHp, dp: fightLogs[fightLogs.length - 1].defenderDp});
+        setFirstWarrior(getWarriorAfterDefense(firstWarrior, winnerLastLog));
+        setSecondWarrior(getWarriorAfterDefense(secondWarrior, looserLastLog));
       } else {
-        setFirstWarrior({...firstWarrior, hp: fightLogs[fightLogs.length - 1].defenderHp, dp: fightLogs[fightLogs.length - 1].defenderDp});
-        setSecondWarrior({...secondWarrior, hp: fightLogs[fightLogs.length - 2].defenderHp, dp: fightLogs[fightLogs.length - 2].defenderDp});
+        setFirstWarrior(getWarriorAfterDefense(firstWarrior, looserLastLog));
+        setSecondWarrior(getWarriorAfterDefense(secondWarrior, winnerLastLog));
       }
 
       if(fightIntervalId !== undefined) clearInterval(fightIntervalId);
@@ -171,32 +147,29 @@ function Arena(){
       <article className="warriors-pick-screen" ref={arenaScreen}>
       <div className="container">
         <h1>Arena</h1>
-        <section className="fight-settings">
-          <WarriorPicker pickerLabel="1st warrior" pickedWarrior={firstWarrior} blockedWarrior={secondWarrior} warriors={warriors} pickWarrior={pickFirstWarrior}/>
-          <span>VS</span>
-          <WarriorPicker pickerLabel="2nd warrior" pickedWarrior={secondWarrior} blockedWarrior={firstWarrior} warriors={warriors} pickWarrior={pickSecondWarrior}/>
-        </section>
-        <button className="fight" onClick={startFight}>FIGHT</button>
+        <FightSettings 
+          firstWarrior={firstWarrior} 
+          pickFirstWarrior={pickFirstWarrior} 
+          secondWarrior={secondWarrior} 
+          pickSecondWarrior={pickSecondWarrior} 
+          warriors={warriors} />
+        <StartFightButton startFight={startFight} />
       </div>
       </article>
       <article className="fight-screen hide" ref={fightScreen}>
         <div className="container">
           <h1>Fight</h1>
-          <section className="fight-board">
-            <WarriorFightCard warrior={firstWarrior} effect={firstWarriorEffect}/>
-            <div className="attacks">
-              <img className="first-warrior-attack" src={`${process.env.REACT_APP_API_URL}/${firstWarrior.attackImagePath}`} alt="attack" ref={firstWarriorAttack}/>
-              <img className="second-warrior-attack"  src={`${process.env.REACT_APP_API_URL}/${secondWarrior.attackImagePath}`} alt="attack" ref={secondWarriorAttack}/>
-            </div>
-            <WarriorFightCard warrior={secondWarrior} effect={secondWarriorEffect}/>
-          </section>
-          {fightStage === FightStages.IN_FIGHT && <button className="skip-fight" onClick={skipFight}>(SKIP)</button>}
+          <FightBoard 
+            firstWarrior={firstWarrior} 
+            firstWarriorEffect={firstWarriorEffect} 
+            firstWarriorAttack={firstWarriorAttack}  
+            secondWarrior={secondWarrior} 
+            secondWarriorEffect={secondWarriorEffect} 
+            secondWarriorAttack={secondWarriorAttack}
+          />
+          {fightStage === FightStages.IN_FIGHT && <SkipFightButton skipFight={skipFight}/>}
         </div>
-        {fightStage === FightStages.FINISHED && 
-        <div className="fight-finished-panel">
-          <h1 className="winner">Winner: {fightResult.winner.name}</h1>
-          <Link to="/arena" onClick={() => window.location.reload()}>Go back to arena</Link>
-        </div>}
+        {fightStage === FightStages.FINISHED && <FightFinishedPanel winnerName={fightResult.winner.name} />}
       </article>
       <GoToHome />
     </article>
